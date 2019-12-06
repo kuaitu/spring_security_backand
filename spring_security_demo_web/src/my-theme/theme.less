@@ -1,0 +1,91 @@
+@import "~iview/src/styles/index.less";
+@import "custom.less";
+
+// Media queries breakpoints
+// Extra small screen / phone
+// @screen-xs              : 480px;
+// @screen-xs-min          : @screen-xs;
+// @screen-xs-max          : (@screen-xs-min - 1);
+
+// // Small screen / tablet
+// @screen-sm              : 900px;
+// @screen-sm-min          : @screen-sm;
+// @screen-sm-max          : (@screen-sm-min - 1);
+
+// // Medium screen / desktop
+// @screen-md              : 1020px;
+// @screen-md-min          : @screen-md;
+// @screen-md-max          : (@screen-md-min - 1);
+
+// // Large screen / wide desktop
+// @screen-lg              : 1400px;
+// @screen-lg-min          : @screen-lg;
+// @screen-lg-max          : (@screen-lg-min - 1);
+
+// @screen-xl              : 1600px;
+
+.theme(@primary-color:#2d8cf0, @menu-dark-title:#515a6e, @menu-dark-active-bg:#363e4f, @layout-sider-background:#515a6e) {
+  .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active,
+  .ivu-menu-dark.ivu-menu-vertical
+    .ivu-menu-submenu
+    .ivu-menu-item-active:hover {
+    background: @primary-color !important;
+  }
+  //.ivu-btn {
+  //  .btn;
+  //  .btn-default;
+  //  &-primary {
+  //    .btn-primary;
+  //  }
+  //}
+  .btn-primary() {
+    .button-variant(@btn-primary-color; @primary-color; @primary-color);
+
+    &:hover,
+        //&:focus,
+        &:active,
+        &.active {
+      color: @btn-primary-color;
+    }
+    .active-btn-color(@primary-color);
+  }
+
+  //@menu-dark-title
+  .ivu-menu {
+    &-dark {
+      background: @menu-dark-title;
+    }
+    &-dark&-vertical &-item,
+    &-dark&-vertical &-submenu-title {
+      &-active:not(.ivu-menu-submenu):hover {
+        background: @menu-dark-active-bg;
+      }
+      &:hover {
+        background: @menu-dark-title;
+      }
+    }
+    &-dark&-vertical &-opened {
+      background: @menu-dark-title;
+      .ivu-menu-submenu-title {
+        background: @menu-dark-title;
+      }
+    }
+  }
+  //@layout-sider-background
+  .ivu-layout {
+    &-sider {
+      background: @layout-sider-background;
+      &-trigger {
+        background: @layout-sider-background;
+      }
+      &-zero-width {
+        &-trigger {
+          background: @layout-sider-background;
+          &:hover {
+            background: tint(@layout-sider-background, 10%);
+          }
+        }
+      }
+    }
+  }
+}

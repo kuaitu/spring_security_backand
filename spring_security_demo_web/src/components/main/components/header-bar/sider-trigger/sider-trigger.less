@@ -1,0 +1,27 @@
+@import '../../css/var.less';
+
+.trans{
+  transition: transform .2s ease;
+}
+@size: 40px;
+.sider-trigger-a{
+  padding: 6px;
+  width: @size;
+  height: @size;
+  display: inline-block;
+  text-align: center;
+  // color: #5c6b77; // 收缩按钮的颜色
+  color: #3053AB;
+  margin-top: 12px;
+  &:hover {
+    color: #333333;
+  }
+  i{
+    .trans;
+    vertical-align: top;
+  }
+  &.collapsed i{
+    transform: rotateZ(90deg);
+    .trans;
+  }
+}

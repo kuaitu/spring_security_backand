@@ -1,0 +1,68 @@
+// 实现了上下垂直居中效果
+.vertical-container {
+  height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.clear_align_item {
+  align-items: inherit !important;
+}
+// 调整默认的操作按钮大小
+.btn_size {
+  width: 100px;
+}
+// 实现居中效果
+.center_position {
+  text-align: center;
+}
+// 默认的container
+.model_body {
+  height: 100%;
+  padding: 10px;
+}
+// 解决火狐下form表单元素换行问题（高度不统一）,火狐浏览器下，input输入框（必填）高度为33.5，360为34，其他为33
+.ivu-form-item {
+  min-height: 34px;
+}
+// 设置弹窗的高度为自适应，包含滚动
+// 使用：为modal中的form表单设置的container
+.modal_form {
+  height: 70vh;
+  padding: 10px;
+  overflow: scroll;
+  overflow-x: auto;
+  overflow-x: 1px;
+}
+
+.fieldset {
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid #dcdee2;
+  background: #fff;
+  min-width: 100px;
+}
+
+.fieldset legend {
+  color: #515a6e;
+  font-weight: bold;
+  padding: 3px 20px 3px 20px;
+  border: 1px solid #dcdee2;
+  background: #fff;
+}
+
+.header-con + .ivu-layout {
+  height: 100%;
+}
+
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ivu-modal {
+    top: 0;
+  }
+}
