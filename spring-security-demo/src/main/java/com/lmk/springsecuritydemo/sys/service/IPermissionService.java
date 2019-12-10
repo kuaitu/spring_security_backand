@@ -2,6 +2,7 @@ package com.lmk.springsecuritydemo.sys.service;
 
 import com.lmk.springsecuritydemo.base.service.IBaseService;
 import com.lmk.springsecuritydemo.sys.entity.Permission;
+import com.lmk.springsecuritydemo.sys.vo.Menus;
 import com.lmk.springsecuritydemo.sys.vo.PermissionVO;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface IPermissionService extends IBaseService<Permission> {
     List<Permission> findByAdminUserId(Integer id);
 
     List<PermissionVO> findAll();
+
+    List<Menus> findMenusByUserId(Integer userId);
+
+    List<Menus> findMenusByRoleId(Integer roleId);
 }
