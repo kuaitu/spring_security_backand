@@ -21,7 +21,7 @@ public class SoapConfig {
     @Qualifier(Bus.DEFAULT_BUS_ID)
     private SpringBus bus;
 
-    /**
+    /**教程https://www.cnblogs.com/lichmama/p/8728262.html
      * http://localhost:8080/spring_security_demo/soap/helloService?wsdl
      * @return
      */
