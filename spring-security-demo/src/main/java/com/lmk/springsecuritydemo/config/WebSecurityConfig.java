@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 系统所有不需要登录就能访问的接口
         web.ignoring().antMatchers("/ws/**");
+        web.ignoring().antMatchers("/soap/**");
 
         //解决服务注册url被拦截的问题
         web.ignoring().antMatchers("/swagger-ui.html");

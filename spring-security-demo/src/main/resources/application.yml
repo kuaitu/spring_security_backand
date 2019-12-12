@@ -67,5 +67,8 @@ server:
         secure: false
         http-only: true
 
+cxf:
+  path: /soap
+
 swagger:
   enable: true
