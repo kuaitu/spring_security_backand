@@ -19,8 +19,11 @@ import '@/filters/filters'
 import AlCascader from '@/components/alCascader/alCascader'
 import DictItemSelect from '@/pages/widgets/DictItemSelect'
 import apiConfig from '../config/api.config'
+import echarts from 'echarts'
 // 注册全局方法
 import UserService from './service/UserService.js'
+
+Vue.prototype.$echarts = echarts
 // 注册全局方法
 Vue.prototype.$UserService = UserService
 // 全局注册，使用方法为:this.$axios

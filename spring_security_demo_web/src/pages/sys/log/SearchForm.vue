@@ -4,27 +4,31 @@
           :model="searchForm"
           :label-width="80"
           inline>
-      <FormItem class="form-item"
-                label="企业名称："
-                prop="memberName">
-        <Input v-model.trim="searchForm.memberName"
-               placeholder="请输入企业名称"></Input>
+      <FormItem label="日志类型："
+                prop="logType">
+        <dict-item-select dictName="LEVEL_LOG"
+                          allStatusText="全部类型"
+                          allStatus
+                          v-model="searchForm.logType"
+                          style="width: 157px"
+                          @onChange="setSearchBtnFoucs">
+        </dict-item-select>
       </FormItem>
+        <FormItem label="时间："
+                      prop="logTime">
+              <DatePicker v-model="searchForm.logTime"
+                          placeholder="时间"
+                          style="width:100%"
+                          :editable="false"
+                          clearable></DatePicker>
+            </FormItem>
       <FormItem class="form-item"
-                label="社会统一信用代码："
-                :label-width="150"
-                prop="organizationId">
-        <Input v-model.trim="searchForm.organizationId"
-               placeholder="请输入社会统一信用代码"></Input>
+                label="操作人员："
+                prop="realName">
+        <Input v-model.trim="searchForm.realName"
+               placeholder="请输入操作人员"></Input>
       </FormItem>
-      <FormItem class="form-item"
-                label="验证码："
-                prop="code">
-        <Input v-model.trim="searchForm.code"
-               placeholder="请输入验证码" class="code-item"></Input>
-        <img class="codeImg" :src="codeUrl" />
-        <Icon type="md-refresh" class="refresh-btn" @click="changeCode()"/>
-      </FormItem>
+
       <div class="action-row-s">
         <div class="action-row-s-t">
           <div class="action-row-s-t-r"></div>
@@ -48,17 +52,15 @@
 </template>
 
 <script>
-  import * as C from '@/utils/constants'
+  import Format from '@/utils/format'
 
-  const CODE_URL = C.API_HEAD + '/Open/verificationCode.action?'
-export default {
+  export default {
   data () {
     return {
-      codeUrl: CODE_URL + Math.random(),
       searchForm: {
-        memberName: '',
-        organizationId: '',
-        code: ''
+        logType: '',
+        logTime: '',
+        realName:''
       }
     }
   },
@@ -70,16 +72,8 @@ export default {
       if (event) {
         event.preventDefault()
       }
-      let param = {}
-      if (this.searchForm.memberName) {
-        param.memberName = this.searchForm.memberName
-      }
-      if (this.searchForm.organizationId) {
-        param.organizationId = this.searchForm.organizationId
-      }
-      if (this.searchForm.code) {
-        param.code = this.searchForm.code
-      }
+      let param = Format.formatFormData(this.searchForm)
+      // TODO: 其他特殊的格式化
       this.$emit('doSearch', param)
     },
 
@@ -91,9 +85,6 @@ export default {
       this.$refs.searchForm.resetFields()
       this.doSearch()
     },
-    changeCode () {
-      this.codeUrl = CODE_URL + Math.random()
-    }
   }
 }
 </script>
@@ -130,20 +121,6 @@ export default {
   .action-row-s-b {
     margin-bottom: 15px;
   }
-  .code {
-    text-align: left;
-  }
-  .codeImg {
-    position: absolute;
-    top: 1px;
-    height: 32px;
-    left: 105%;
-    // right: 0;
-  }
-  .refresh-btn {
-    position: absolute;
-    top: 5px;
-    font-size:22px;
-    left: 175%;
-  }
+
+
 </style>

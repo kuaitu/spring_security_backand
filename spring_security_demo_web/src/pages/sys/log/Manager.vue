@@ -1,32 +1,28 @@
 <template>
   <Card>
     <search-form @doSearch="doSearch"
-                 @doAdd="doAdd"
-                class="search-form"
-                ref="searchForm">
+                                class="search-form"
+                                ref="searchForm">
     </search-form>
     <data-table :data="data"
-                :total="total"
-                :currentPage="currentPage"
-                @changeRows="changeRows"
-                @pageChange="pageChange"
-                @view="view"
-                class="connon-manager-table">
+                          :total="total"
+                          :currentPage="currentPage"
+                          @changeRows="changeRows"
+                          @pageChange="pageChange"
+                          @view="view"
+                          class="connon-manager-table">
     </data-table>
-    <single-modal ref="singleModal"></single-modal>
   </Card>
 </template>
 <script>
-  import targetApi from '@/api/business/credit/lost'
+  import targetApi from '@/api/sys/log'
   import DataTable from './Table'
   import SearchForm from './SearchForm'
-  import SingleModal from './Modal'
 
   export default {
-  name: 'MachineManager',
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.loadData()
+       vm.loadData()
     })
   },
 
@@ -52,12 +48,12 @@
           this.total = resp.total
           this.data = resp.data
         } else {
-          this.$Message.error('加载数据失败' + resp.message)
+          this.$Message.error('加载数据失败：' + resp.message)
           this.$indicator.close()
         }
         this.$indicator.close()
       }).catch(err => {
-        this.$Notice.error({ title: '加载数据失败', desc: err })
+        this.$Notice.error({ title: '加载数据失败：', desc: err })
         this.$indicator.close()
       })
     },
@@ -77,19 +73,16 @@
     },
     view (data) {
       this.$router.push({
-        name: 'ForeignTraderView', // 更换对应的详情界面
+        name: 'IndustryView', // 更换对应的详情界面
         params: {
           id: data.memberId
         }
       })
-    },
-    doAdd () {
-      this.$refs.singleModal.initData()
     }
   },
 
   components: {
-    SearchForm, DataTable, SingleModal
+    SearchForm, DataTable
   }
 }
 </script>

@@ -1,18 +1,11 @@
 <template>
   <div>
-    <Table :data="data" border :columns="tableColumns" :row-class-name="rowClass">
-      <template slot-scope="{ row }" slot="roleName">
-        <Tag color="success" v-if="row.roleName && row.roleName !== ''"> {{ row.roleName }}</Tag>
-        <Tag color="primary" v-else> {{ '未配置' }} </Tag>
+    <Table :data="data" border :columns="tableColumns" :row-class-name="rowClass" >
+      <template slot-scope="{ row }" slot="logType">
+        {{ translate('LEVEL_LOG', row.logType) }}
       </template>
-      <template slot-scope="{ row }" slot="auditStatus">
-        <Tag :color="openStatusColor(row)">{{ translate('AUDIT_RESULT', row.auditResult) }}</Tag>
-      </template>
-      <template slot-scope="{ row }" slot="workStatus" v-if="row.workStatus && row.workStatus !== ''">
-        <Tag :color="workStatusColor(row)" style="width:80px"> {{ translate('WORK_STATUS', row.workStatus) }} </Tag>
-      </template>
-      <template slot-scope="{ row }"  slot="gender"  v-if="row.gender && row.gender !== ''">
-        {{ translate('GENDER', row.gender) }}
+      <template slot-scope="{ row }"  slot="logTime" v-if="row.logTime && row.logTime != ''">
+        {{ row.logTime.slice(0, 10) }}
       </template>
       <template slot-scope="{ row }" slot="action">
         <div class="action-row">
@@ -51,33 +44,27 @@
         align: 'center',
         width: 80
       }, {
-        title: '企业名称',
+        title: '操作内容',
         align: 'center',
         minWidth: 120,
-        key: 'userName'
+        key: 'logContent'
       }, {
-        title: '统一社会信用代码',
+        title: '日志类型',
         align: 'center',
         minWidth: 150,
-        key: 'memberName'
+        key: 'logType',
+        slot: 'logType'
       }, {
-        title: '法人代表',
-        align: 'center',
-        minWidth: 180,
-        key: 'roleName',
-        slot: 'roleName'
-      }, {
-        title: '备案表编号',
+        title: '操作人员',
         align: 'center',
         width: 180,
-        key: 'gender',
-        slot: 'gender'
+        key: 'realName'
       }, {
-        title: '操作',
+        title: '操作时间',
         align: 'center',
-        width: 150,
-        slot: 'action',
-        key: 'action'
+        width: 180,
+        key: 'logTime',
+        slot: 'logTime'
       }],
       pageNumArr: [10, 20, 50, 100]
     }

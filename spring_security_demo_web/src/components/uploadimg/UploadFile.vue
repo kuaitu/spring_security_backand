@@ -16,7 +16,7 @@ export default {
   data () {
     return {
       // uploadAction: '/basic_platform/FileUpload/upload.action',
-      uploadAction: '/quality_supervision/file/upload.action',
+      uploadAction: '/cci/file/upload.action',
       uploadList: []
     }
   },

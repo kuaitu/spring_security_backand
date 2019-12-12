@@ -34,13 +34,6 @@ export default {
     return http.post(C.API_HEAD + '/UwConfigController/findMenuAndFuncByRoleId.action', roleId)
   },
 
-  getMenuAndFunc (roleId) {
-    return http.post(
-      C.API_HEAD + '/UwConfigController/getMenuAndFuncByRoleId.action',
-      roleId
-    )
-  },
-
   updateMenuAndFunc (roleId, menus) {
     return http.postJSON(C.API_HEAD + '/UwConfigController/updateMenuAndFunc.action', { roleId, menus })
   },
@@ -48,8 +41,7 @@ export default {
   search (params) {
     return http.post(C.API_HEAD + '/Role/search.action', params)
   },
-
-  getRolesByOrg (orgId) {
-    return http.post(C.API_HEAD + '/Role/getRolesByOrg.action', {orgId})
+  searchAll () {
+    return http.post(C.API_HEAD + '/Role/searchAll.action')
   }
 }

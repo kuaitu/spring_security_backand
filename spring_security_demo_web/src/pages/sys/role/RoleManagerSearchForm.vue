@@ -5,7 +5,7 @@
           :label-width="92"
           style="float: left;"
           inline>
-      <FormItem prop="userStatus"
+      <FormItem prop="roleStatus"
                 :label-width="0">
         <dict-item-select dictName="COMMON_STATUS"
                           v-model="searchForm.roleStatus"
@@ -18,18 +18,6 @@
         <Input v-model.trim="searchForm.roleName"
                placeholder="请输入角色名称"
                clearable />
-      </FormItem>
-      <FormItem class="form-item"
-                label="所属机构："
-                prop="organizationId">
-        <Select v-model="searchForm.organizationId"
-                placeholder="请选择所属机构"
-                :filterable="true"
-                style="width:200px">
-          <Option v-for="item in orgList"
-                  :value="item.organizationId"
-                  :key="item.organizationId">{{ item.organizationName }}</Option>
-        </Select>
       </FormItem>
     </Form>
     <Button @click="doSearch($event)"
@@ -49,13 +37,13 @@
 </template>
 <script>
   import UserService from '@/service/UserService'
+  import Format from '@/utils/format'
 
   export default {
   data () {
     return {
-      orgList: [],
       searchForm: {
-        roleStatus: 'all',
+        roleStatus: '',
         roleName: ''
       }
     }
@@ -63,21 +51,15 @@
 
   methods: {
     doSearch () {
-      let params = {}
-      if (this.searchForm.organizationId) {
-        params.organizationId = this.searchForm.organizationId
+      if (event) {
+        event.preventDefault()
       }
-      if (this.searchForm.roleStatus && this.searchForm.roleStatus !== 'all') {
-        params.roleStatus = this.searchForm.roleStatus
-      }
-      if (this.searchForm.roleName) {
-        params.roleName = this.searchForm.roleName
-      }
-      this.$emit('doSearch', params)
+      let param = Format.formatFormData(this.searchForm)
+      // TODO: 其他特殊的格式化
+      this.$emit('doSearch', param)
     },
 
     doReset () {
-      // this.$refs.advancedSearchForm.resetFields()
       this.searchForm.roleStatus = 'all'
       this.$refs.searchForm.resetFields()
       this.$emit('doSearch', {})

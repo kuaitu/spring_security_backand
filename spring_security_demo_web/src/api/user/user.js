@@ -12,9 +12,6 @@ export default {
       okCb
     )
   },
-  resetPwd (user) {
-    return http.postJSON(C.API_HEAD + '/User/resetPassword.action', user)
-  },
 
   changePwd (password, newPassword, newPasswordConfirm, userName) {
     return new Promise(resolve => {
