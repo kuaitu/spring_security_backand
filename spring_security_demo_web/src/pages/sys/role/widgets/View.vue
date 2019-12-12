@@ -155,7 +155,7 @@
     },
     editFunc (id) {
       this.$indicator.open()
-      roleApi.getMenuAndFunc({roleId: id}).then(resp => {
+      roleApi.findMenuAndFunc({roleId: id}).then(resp => {
         if (resp.success) {
           resp.data.map(menu => {
             for (let i = 0; i < menu.children.length; i++) {

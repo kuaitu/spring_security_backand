@@ -53,6 +53,9 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:com/lmk/springsecuritydemo/**/mapper/*Mapper.xml
   type-aliases-package: com.lmk.springsecuritydemo.**.entity
+  configuration:
+    mapUnderscoreToCamelCase: true # 驼峰命名
+    autoMappingBehavior: FULL # 开启字段自动映射（必需）
 
 server:
   port: 8080
@@ -63,6 +66,9 @@ server:
       cookie:
         secure: false
         http-only: true
+
+cxf:
+  path: /soap
 
 swagger:
   enable: true

@@ -11,15 +11,21 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/spring_security_demo/': {
-        // target: 'http://192.168.2.110:8080',
         target: 'http://localhost:8080',
         changeOrigin: true
+      },
+      '/downLoad': {
+        target: 'http://192.168.1.28:8082',
+        changeOrigin: true,
+        pathRewrite: {
+          '/downLoad': '' // 重写,
+        }
       }
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8099, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -55,8 +61,17 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/spring_security_demo/',         // jar包
-    // assetsPublicPath: '/spring_security_demo_web/',  // 部署tomcat
+    assetsPublicPath: '/spring_security_demo/', // jar包
+    // assetsPublicPath: '/spring_security_demo_web/', // tomcat
+    proxyTable: {
+      '/downLoad': {
+        target: 'http://192.168.1.28:8082',
+        changeOrigin: true,
+        pathRewrite: {
+          '/downLoad': '' // 重写,
+        }
+      }
+    },
 
     /**
      * Source Maps

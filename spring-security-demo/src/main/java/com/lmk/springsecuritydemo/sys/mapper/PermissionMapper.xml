@@ -7,7 +7,7 @@
         <result property="permissionName" column="permission_name"/>
         <collection property="roleList" ofType="com.lmk.springsecuritydemo.sys.entity.Role">
             <id property="id" column="role_id"/>
-            <result property="name" column="role_name"/>
+            <result property="roleName" column="role_name"/>
         </collection>
     </resultMap>
 
@@ -34,4 +34,202 @@
         WHERE
             u.id = #{userId}
     </select>
+
+    <resultMap id="permissionsMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="userId" column="user_id" />
+    </resultMap>
+
+    <resultMap id="secondMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="userId" column="user_id" />
+        <collection property="children"
+                    select="getPermission"
+                    column="{id=id,userId=user_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <resultMap id="topMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="userId" column="user_id"/>
+        <collection property="children"
+                    select="getSecondMenus"
+                    column="{id=id,userId=user_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <select id="getPermission" resultMap="permissionsMap">
+        SELECT
+        DISTINCT
+        sp.*,
+        <choose>
+            <when test="userId == null">
+                null as user_id
+            </when>
+            <otherwise>
+                sur.user_id as user_id
+            </otherwise>
+        </choose>
+        FROM
+        <choose>
+            <when test="userId != null">
+                sys_user_role sur
+                INNER JOIN sys_role sr ON sr.id = sur.role_id
+                INNER JOIN sys_permission_role spr ON sr.id = spr.role_id
+                INNER JOIN sys_permission sp ON sp.id = spr.permission_id AND sp.parent_id = #{id}
+            </when>
+            <otherwise>
+                sys_permission sp
+            </otherwise>
+        </choose>
+        <where>
+            <choose>
+                <when test="userId != null">
+                    sur.user_id = #{userId}
+                </when>
+                <otherwise>
+                    sp.parent_id = #{id}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getSecondMenus" resultMap="secondMenusMap">
+        SELECT
+        DISTINCT
+        sp.*,
+        <choose>
+            <when test="userId == null">
+                null as user_id
+            </when>
+            <otherwise>
+                sur.user_id as user_id
+            </otherwise>
+        </choose>
+        FROM
+        <choose>
+            <when test="userId != null">
+                sys_user_role sur
+                INNER JOIN sys_role sr ON sr.id = sur.role_id
+                INNER JOIN sys_permission_role spr ON sr.id = spr.role_id
+                INNER JOIN sys_permission sp ON sp.id = spr.permission_id AND sp.parent_id = #{id}
+            </when>
+            <otherwise>
+                sys_permission sp
+            </otherwise>
+        </choose>
+        <where>
+            <choose>
+                <when test="userId != null">
+                    sur.user_id = #{userId}
+                </when>
+                <otherwise>
+                    sp.parent_id = #{id}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="findMenusByUserId" resultMap="topMenusMap" parameterType="java.lang.Integer">
+        SELECT
+          DISTINCT
+          sp.*,
+        <choose>
+            <when test="userId == null">
+                null as user_id
+            </when>
+            <otherwise>
+                sur.user_id as user_id
+            </otherwise>
+        </choose>
+        FROM
+        <choose>
+            <when test="userId != null">
+                sys_user_role sur
+                    INNER JOIN sys_role sr ON sr.id = sur.role_id
+                    INNER JOIN sys_permission_role spr ON sr.id = spr.role_id
+                    INNER JOIN sys_permission sp ON sp.id = spr.permission_id AND sp.parent_id = -1
+            </when>
+            <otherwise>
+                sys_permission sp
+            </otherwise>
+        </choose>
+        <where>
+            <choose>
+                <when test="userId != null">
+                    sur.user_id = #{userId}
+                </when>
+                <otherwise>
+                    sp.parent_id = -1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <resultMap id="rolePermissionsMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id" />
+    </resultMap>
+
+    <resultMap id="roleSecondMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id" />
+        <collection property="children"
+                    select="getRolePermission"
+                    column="{id=id,roleId=role_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <resultMap id="roleTopMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id"/>
+        <collection property="children"
+                    select="getRoleSecondMenus"
+                    column="{id=id,roleId=role_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <select id="getRolePermission" resultMap="rolePermissionsMap">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = #{id}
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
+    <select id="getRoleSecondMenus" resultMap="roleSecondMenusMap">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = #{id}
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
+    <select id="findMenusByRoleId" resultMap="roleTopMenusMap" parameterType="java.lang.Integer">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = -1
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
 </mapper>

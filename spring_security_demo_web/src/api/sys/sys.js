@@ -3,7 +3,7 @@ import * as C from '@/utils/constants'
 
 export default {
   findLicensedMenuEasyUI (params) {
-    return http.post(C.API_HEAD + '/Menu/findLicensedMenuEasyUI.action', params)
+    return http.post(C.API_HEAD + '/sys/permission/findMenusByUserId.action', params)
   },
 
   findSysDictItem (okCb, errCb) {
@@ -11,7 +11,8 @@ export default {
       C.API_HEAD + '/sys/dict-item/search.action',
       {
         page: 1,
-        rows: -1
+        rows: -1,
+        exampleJson: '{}'
       },
       okCb,
       errCb

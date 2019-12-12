@@ -41,6 +41,10 @@
       type: Boolean,
       default: false
     },
+    defaultIndex: {
+      type: Number,
+      default: 0
+    },
     allStatus: {
       type: Boolean,
       default: false
@@ -102,15 +106,13 @@
   data () {
     return {
       dict: [],
-      defaultOption: [{dictItemCode: 'all', dictItemValue: '全部状态'}]
+      defaultOption: [{dictItemCode: '[Query-All-Status-Option]', dictItemValue: '全部状态'}]
     }
   },
 
   methods: {
     initData () {
       let sysDictItem = sysDict.findDict(this.dictName)
-      // console.log(sysDictItem)
-      // console.log(this.defaultOption)
       if (this.allStatus === true || this.allStatus === '') {
         if (this.allStatusText) {
           this.defaultOption[0].dictItemValue = this.allStatusText
@@ -118,6 +120,11 @@
         this.dict = this.defaultOption.concat(sysDictItem)
       } else {
         this.dict = sysDictItem
+      }
+      var reg = /^[0-9]*$/
+      if (reg.test(this.defaultIndex)) {
+        this.$emit('input', this.dict[this.defaultIndex].dictItemCode)
+        this.$emit('onChange', this.dict[this.defaultIndex].dictItemCode)
       }
     },
     change (value) {

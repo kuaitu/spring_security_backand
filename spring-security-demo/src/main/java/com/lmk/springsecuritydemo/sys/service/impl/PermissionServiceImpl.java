@@ -6,6 +6,7 @@ import com.lmk.springsecuritydemo.base.service.impl.BaseServiceImpl;
 import com.lmk.springsecuritydemo.sys.dao.PermissionMapper;
 import com.lmk.springsecuritydemo.sys.entity.Permission;
 import com.lmk.springsecuritydemo.sys.service.IPermissionService;
+import com.lmk.springsecuritydemo.sys.vo.Menus;
 import com.lmk.springsecuritydemo.sys.vo.PermissionVO;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,26 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
     public List<PermissionVO> findAll() {
         return baseMapper.findAll();
     }
+
+    /**
+     * 根据用户id查询菜单树，用户id为空则，则查询系统整棵菜单树
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Menus> findMenusByUserId(Integer userId) {
+        return baseMapper.findMenusByUserId(userId);
+    }
+
+    /**
+     * 根据角色id查询菜单树
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<Menus> findMenusByRoleId(Integer roleId) {
+        return baseMapper.findMenusByRoleId(roleId);
+    }
+
+
 }

@@ -1,17 +1,18 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/12/6 15:48:12                           */
+/* Created on:     2019/12/6 17:58:01                           */
 /*==============================================================*/
 
-drop table if exists sys_permission_role;
-
 drop table if exists sys_user_role;
+
+drop table if exists sys_permission_role;
 
 drop table if exists sys_permission;
 
 drop table if exists sys_role;
 
 drop table if exists sys_user;
+
 
 
 /*==============================================================*/
@@ -39,7 +40,7 @@ alter table sys_permission comment '权限表';
 /*==============================================================*/
 create table sys_permission_role
 (
-   id                   int(11) not null comment 'id',
+   id                   int(11) not null auto_increment comment 'id',
    role_id              int(11) comment '角色id',
    permission_id        int(11) comment '权限id',
    primary key (id)

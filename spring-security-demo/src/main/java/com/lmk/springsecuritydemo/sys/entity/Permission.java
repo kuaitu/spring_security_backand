@@ -53,5 +53,6 @@ public class Permission extends BaseIdModel
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
-
+    @ApiModelProperty(value = "排序")
+    private Integer sortNumber;
 }

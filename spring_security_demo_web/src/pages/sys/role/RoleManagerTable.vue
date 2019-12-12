@@ -77,12 +77,6 @@
         width: 150,
         align: 'center'
       }, {
-        title: '角色类型',
-        key: 'roleType',
-        align: 'center',
-        width: 120,
-        slot: 'roleType'
-      }, {
         title: '创建时间',
         key: 'addTime',
         align: 'center',

@@ -24,9 +24,22 @@ export default {
     })
   },
 
-  resetPwd (user) {
-    return http.postJSON(C.API_HEAD + '/User/resetPassword.action', user)
+  create (params) {
+    return new Promise(resolve => {
+      // 提交前的三次加密操作
+      setTimeout(() => {
+        let user = params.user
+        let hashPwdFirst = Util.Encrypt(user.userPwd)
+        let hashPwdSecond = Util.Encrypt(hashPwdFirst + user.userName)
+        params.user.userPwd = hashPwdSecond
+        params.user = JSON.stringify(params.user)
+        resolve(
+          http.post(C.API_HEAD + '/User/create.action', params)
+        )
+      }, 1)
+    })
   },
+
 
   changePwd (password, newPassword, newPasswordConfirm, userName) {
     return new Promise(resolve => {
@@ -54,5 +67,21 @@ export default {
   },
   logout () {
     return http.post(C.API_HEAD + '/User/logout.action')
+  },
+
+  getEmailCode (userName,email,code) {
+    return http.post(C.API_HEAD + '/Report/sendMail.action',{userName: userName,code: code,email: email})
+  },
+  backPassword (userName,email,eCode,newPassword,newPasswordConfirm) {
+    return new Promise(resolve => {
+      // 提交前的加密操作
+      setTimeout(() => {
+        let hashPwdFirst = Util.Encrypt(newPassword)
+        let hashPwdSecond = Util.Encrypt(hashPwdFirst + userName)
+        resolve(
+          http.post(C.API_HEAD + '/User/backPassword.action',{email: email,eCode: eCode,newPassword:hashPwdSecond,newPasswordConfirm:newPasswordConfirm})
+        )
+      }, 1)
+    })
   }
 }

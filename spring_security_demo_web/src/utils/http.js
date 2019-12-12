@@ -114,7 +114,7 @@ export default {
     Vue.http.post(url)
   },
 
-   ssoLoginResp (resp) {
+  ssoLoginResp (resp) {
     let SSOSwitch = null
     if (resp.headers.map['ssoswitch']) {
       SSOSwitch = resp.headers.map['ssoswitch'][0]
