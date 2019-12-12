@@ -170,4 +170,66 @@
             </choose>
         </where>
     </select>
+
+    <resultMap id="rolePermissionsMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id" />
+    </resultMap>
+
+    <resultMap id="roleSecondMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id" />
+        <collection property="children"
+                    select="getRolePermission"
+                    column="{id=id,roleId=role_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <resultMap id="roleTopMenusMap" type="com.lmk.springsecuritydemo.sys.vo.Menus">
+        <id property="id" column="id" />
+        <result property="url" column="url" />
+        <result property="roleId" column="role_id"/>
+        <collection property="children"
+                    select="getRoleSecondMenus"
+                    column="{id=id,roleId=role_id}"
+                    javaType="ArrayList"
+                    ofType="com.lmk.springsecuritydemo.sys.vo.Menus"/>
+    </resultMap>
+
+    <select id="getRolePermission" resultMap="rolePermissionsMap">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = #{id}
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
+    <select id="getRoleSecondMenus" resultMap="roleSecondMenusMap">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = #{id}
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
+    <select id="findMenusByRoleId" resultMap="roleTopMenusMap" parameterType="java.lang.Integer">
+        SELECT DISTINCT
+            sp.*,
+            spr.role_id
+        FROM
+            sys_permission_role spr
+        INNER JOIN sys_permission sp ON spr.permission_id = sp.id AND sp.parent_id = -1
+        WHERE
+            spr.role_id = #{roleId}
+    </select>
+
 </mapper>
