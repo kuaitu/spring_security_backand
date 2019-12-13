@@ -1,19 +1,18 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/12/6 17:58:01                           */
+/* Created on:     2019/12/13 11:55:45                          */
 /*==============================================================*/
 
-drop table if exists sys_user_role;
-
-drop table if exists sys_permission_role;
 
 drop table if exists sys_permission;
+
+drop table if exists sys_permission_role;
 
 drop table if exists sys_role;
 
 drop table if exists sys_user;
 
-
+drop table if exists sys_user_role;
 
 /*==============================================================*/
 /* Table: sys_permission                                        */
@@ -21,19 +20,20 @@ drop table if exists sys_user;
 create table sys_permission
 (
    id                   int(11) not null auto_increment comment 'id',
-   url                  varchar(64) comment 'È¨ÏŞÂ·¾¶',
-   path                 varchar(64) comment 'Â·ÓÉÂ·¾¶',
-   component            varchar(64) comment 'Ä£¿éÒ³ÃæÂ·¾¶',
-   permission_name      varchar(64) comment 'Ãû³Æ',
-   icon_cls             varchar(64) comment 'Í¼±ê',
-   keep_alive           tinyint(1) default 0 comment 'Ò³Ãæ»º´æ',
-   require_auth         tinyint(1) default 1 comment '·ÃÎÊÈ¨ÏŞ',
-   parent_id            int(11) comment '¸¸¼¶²Ëµ¥id',
-   enabled              tinyint(1) default 1 comment 'ÊÇ·ñÆôÓÃ',
+   url                  varchar(64) comment 'æƒé™è·¯å¾„',
+   path                 varchar(64) comment 'è·¯ç”±è·¯å¾„',
+   component            varchar(64) comment 'æ¨¡å—é¡µé¢è·¯å¾„',
+   permission_name      varchar(64) comment 'åç§°',
+   icon_cls             varchar(64) comment 'å›¾æ ‡',
+   keep_alive           tinyint(1) default 0 comment 'é¡µé¢ç¼“å­˜',
+   require_auth         tinyint(1) default 1 comment 'è®¿é—®æƒé™',
+   parent_id            int(11) comment 'çˆ¶çº§èœå•id',
+   enabled              tinyint(1) default 1 comment 'æ˜¯å¦å¯ç”¨',
+   sort_number          int(11) comment 'æ’åº',
    primary key (id)
 );
 
-alter table sys_permission comment 'È¨ÏŞ±í';
+alter table sys_permission comment 'æƒé™è¡¨';
 
 /*==============================================================*/
 /* Table: sys_permission_role                                   */
@@ -41,12 +41,12 @@ alter table sys_permission comment 'È¨ÏŞ±í';
 create table sys_permission_role
 (
    id                   int(11) not null auto_increment comment 'id',
-   role_id              int(11) comment '½ÇÉ«id',
-   permission_id        int(11) comment 'È¨ÏŞid',
+   role_id              int(11) comment 'è§’è‰²id',
+   permission_id        int(11) comment 'æƒé™id',
    primary key (id)
 );
 
-alter table sys_permission_role comment 'È¨ÏŞ½ÇÉ«¹ØÏµ±í';
+alter table sys_permission_role comment 'æƒé™è§’è‰²å…³ç³»è¡¨';
 
 /*==============================================================*/
 /* Table: sys_role                                              */
@@ -54,12 +54,12 @@ alter table sys_permission_role comment 'È¨ÏŞ½ÇÉ«¹ØÏµ±í';
 create table sys_role
 (
    id                   int(11) not null auto_increment comment 'id',
-   role_name            varchar(32) comment '½ÇÉ«´úÂë',
-   role_name_zh         varchar(32) comment '½ÇÉ«Ãû³Æ',
+   role_name            varchar(32) comment 'è§’è‰²ä»£ç ',
+   role_name_zh         varchar(32) comment 'è§’è‰²åç§°',
    primary key (id)
 );
 
-alter table sys_role comment '½ÇÉ«±í';
+alter table sys_role comment 'è§’è‰²è¡¨';
 
 /*==============================================================*/
 /* Table: sys_user                                              */
@@ -67,18 +67,18 @@ alter table sys_role comment '½ÇÉ«±í';
 create table sys_user
 (
    id                   int(11) not null auto_increment comment 'id',
-   user_name_zh         varchar(8) comment 'ĞÕÃû',
-   phone                char(13) comment 'ÊÖ»ú',
-   address              varchar(255) comment 'µØÖ·',
-   enabled              char(1) comment 'ÊÇ·ñÆô¶¯',
-   user_name            varchar(32) comment 'ÕËºÅ',
-   password             varchar(64) comment 'ÃÜÂë',
-   userface             varchar(255) comment 'ÓÃ»§Í·Ïñ',
-   remark               varchar(255) comment '±¸×¢',
+   user_name_zh         varchar(8) comment 'å§“å',
+   phone                char(13) comment 'æ‰‹æœº',
+   address              varchar(255) comment 'åœ°å€',
+   enabled              char(1) comment 'æ˜¯å¦å¯åŠ¨',
+   user_name            varchar(32) comment 'è´¦å·',
+   password             varchar(64) comment 'å¯†ç ',
+   userface             varchar(255) comment 'ç”¨æˆ·å¤´åƒ',
+   remark               varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
-alter table sys_user comment 'ÓÃ»§±í';
+alter table sys_user comment 'ç”¨æˆ·è¡¨';
 
 /*==============================================================*/
 /* Table: sys_user_role                                         */
@@ -86,12 +86,12 @@ alter table sys_user comment 'ÓÃ»§±í';
 create table sys_user_role
 (
    id                   int(11) not null auto_increment comment 'id',
-   user_id              int(11) comment 'ÓÃ»§id',
-   role_id              int(11) comment '½ÇÉ«id',
+   user_id              int(11) comment 'ç”¨æˆ·id',
+   role_id              int(11) comment 'è§’è‰²id',
    primary key (id)
 );
 
-alter table sys_user_role comment 'ÓÃ»§½ÇÉ«¹ØÏµ±í';
+alter table sys_user_role comment 'ç”¨æˆ·è§’è‰²å…³ç³»è¡¨';
 
 alter table sys_permission_role add constraint FK_Reference_3 foreign key (role_id)
       references sys_role (id) on delete restrict on update restrict;
